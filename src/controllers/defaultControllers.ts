@@ -1,4 +1,5 @@
 import { sign as signToken, verify as verifyToken } from 'jsonwebtoken';
+import { query as queryDb } from '../database/db';
 
 const defaultIndex = async (req, res) => {
   res.json({ message: 'it works' })
@@ -53,4 +54,15 @@ const login = async (req, res) => {
             });
         }
 }
-export { defaultIndex, getToken, login };
+
+const query = async (req, res) => {
+  queryDb(req.body.query).then(
+    (docs) => {
+      res.send(docs)
+    },
+    (err) => {
+      res.send(err)
+    }
+  )
+}
+export { defaultIndex, getToken, login, query };

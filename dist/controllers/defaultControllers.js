@@ -37,6 +37,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 var _this = this;
 Object.defineProperty(exports, "__esModule", { value: true });
 var jsonwebtoken_1 = require("jsonwebtoken");
+var db_1 = require("../database/db");
 var defaultIndex = function (req, res) { return __awaiter(_this, void 0, void 0, function () {
     return __generator(this, function (_a) {
         res.json({ message: 'it works' });
@@ -98,4 +99,15 @@ var login = function (req, res) { return __awaiter(_this, void 0, void 0, functi
     });
 }); };
 exports.login = login;
+var query = function (req, res) { return __awaiter(_this, void 0, void 0, function () {
+    return __generator(this, function (_a) {
+        db_1.query(req.body.query).then(function (docs) {
+            res.send(docs);
+        }, function (err) {
+            res.send(err);
+        });
+        return [2 /*return*/];
+    });
+}); };
+exports.query = query;
 //# sourceMappingURL=defaultControllers.js.map

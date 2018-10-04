@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var http_1 = require("http");
 var express = require("express");
+var bodyParser = require("body-parser");
 var App = /** @class */ (function () {
     /**
      * App constructor
@@ -11,6 +12,8 @@ var App = /** @class */ (function () {
         if (name === void 0) { name = 'Alma Matters'; }
         this.port = Number(process.env.PORT) || 3000;
         this.app = express();
+        this.app.use(bodyParser.json({ parameterLimit: 1000000, limit: '50mb', extended: true }));
+        this.app.use(bodyParser.urlencoded({ parameterLimit: 1000000, limit: '50mb', extended: true }));
         // this.https = httpsServer(credentials, this.app);
         this.http = http_1.createServer(this.app);
         this.app.set('name', name);

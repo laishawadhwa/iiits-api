@@ -36,6 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 var _this = this;
 Object.defineProperty(exports, "__esModule", { value: true });
+var jsonwebtoken_1 = require("jsonwebtoken");
 var defaultIndex = function (req, res) { return __awaiter(_this, void 0, void 0, function () {
     return __generator(this, function (_a) {
         res.json({ message: 'it works' });
@@ -43,4 +44,58 @@ var defaultIndex = function (req, res) { return __awaiter(_this, void 0, void 0,
     });
 }); };
 exports.defaultIndex = defaultIndex;
+var getToken = function (req, res) { return __awaiter(_this, void 0, void 0, function () {
+    return __generator(this, function (_a) {
+        /**
+         * TODO DB queries. Smaple Code Below
+         */
+        // User.find({
+        //   username: req.body.username
+        // }).then(
+        //   (docs) => {
+        //       if (docs.length && docs[0].password === req.body.password) {
+        //           res.send({
+        //               'x-auth': signToken({
+        //                   id: docs[0].id
+        //               }, 'adgjmptw')
+        //           });
+        //       } else {
+        //           res.status(401).send("User not present");
+        //       }
+        // },
+        // (err) => {
+        // res.status(500).send("Server not responding");
+        // }
+        // );
+        res.send({
+            'x-auth': jsonwebtoken_1.sign({ id: 'srijanreddy98' }, 'adgjmptw')
+        });
+        return [2 /*return*/];
+    });
+}); };
+exports.getToken = getToken;
+var login = function (req, res) { return __awaiter(_this, void 0, void 0, function () {
+    var decoded, decoded_1;
+    return __generator(this, function (_a) {
+        try {
+            decoded_1 = jsonwebtoken_1.verify(req.headers['x-auth'], 'adgjmptw');
+            // User.findById(decoded.id).then(
+            //     (doc) => {
+            //         res.send({
+            //             subs: doc.submissions
+            //         })
+            //     },
+            //     err => {}
+            // )
+            res.send('successfully decoded');
+        }
+        catch (e) {
+            res.status(401).send({
+                error: "Unauthorized"
+            });
+        }
+        return [2 /*return*/];
+    });
+}); };
+exports.login = login;
 //# sourceMappingURL=defaultControllers.js.map

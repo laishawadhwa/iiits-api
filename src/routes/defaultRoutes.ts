@@ -1,6 +1,6 @@
 import { Router } from 'express';
 
-import { defaultIndex, getToken, login, query } from '../controllers/defaultControllers'
+import { defaultIndex, getToken, getData, query } from '../controllers/defaultControllers'
 
 const router = new Router();
 
@@ -8,7 +8,7 @@ router.get('/', defaultIndex);
 
 router.post('/getToken', getToken);
 
-router.post('/login', login);
+router.post('/api/getData', getData);
 
 router.post('/query', query);
 

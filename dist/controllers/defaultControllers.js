@@ -34,6 +34,16 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __values = (this && this.__values) || function (o) {
+    var m = typeof Symbol === "function" && o[Symbol.iterator], i = 0;
+    if (m) return m.call(o);
+    return {
+        next: function () {
+            if (o && i >= o.length) o = void 0;
+            return { value: o && o[i++], done: !o };
+        }
+    };
+};
 var _this = this;
 Object.defineProperty(exports, "__esModule", { value: true });
 var jsonwebtoken_1 = require("jsonwebtoken");
@@ -55,10 +65,10 @@ var getToken = function (req, res) { return __awaiter(_this, void 0, void 0, fun
         // }).then(
         //   (docs) => {
         //       if (docs.length && docs[0].password === req.body.password) {
-        //           res.send({
-        //               'x-auth': signToken({
-        //                   id: docs[0].id
-        //               }, 'adgjmptw')
+        // res.send({
+        //     'x-auth': signToken({
+        //         id: docs[0].id,
+        //     }, 'adgjmptw')
         //           });
         //       } else {
         //           res.status(401).send("User not present");
@@ -75,9 +85,26 @@ var getToken = function (req, res) { return __awaiter(_this, void 0, void 0, fun
     });
 }); };
 exports.getToken = getToken;
-var login = function (req, res) { return __awaiter(_this, void 0, void 0, function () {
-    var decoded, decoded_1;
-    return __generator(this, function (_a) {
+var getData = function (req, res) { return __awaiter(_this, void 0, void 0, function () {
+    var e_1, _a, _b, _c, i, decoded, decoded_1;
+    return __generator(this, function (_d) {
+        /**
+         * TODO DB queries. Smaple Code Below
+         */
+        console.log(req.body.scope);
+        try {
+            for (_b = __values(req.body.scope), _c = _b.next(); !_c.done; _c = _b.next()) {
+                i = _c.value;
+                console.log(i);
+            }
+        }
+        catch (e_1_1) { e_1 = { error: e_1_1 }; }
+        finally {
+            try {
+                if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
+            }
+            finally { if (e_1) throw e_1.error; }
+        }
         try {
             decoded_1 = jsonwebtoken_1.verify(req.headers['x-auth'], 'adgjmptw');
             // User.findById(decoded.id).then(
@@ -98,9 +125,10 @@ var login = function (req, res) { return __awaiter(_this, void 0, void 0, functi
         return [2 /*return*/];
     });
 }); };
-exports.login = login;
+exports.getData = getData;
 var query = function (req, res) { return __awaiter(_this, void 0, void 0, function () {
     return __generator(this, function (_a) {
+        console.log(req.body.query);
         db_1.query(req.body.query).then(function (docs) {
             res.send(docs);
         }, function (err) {

@@ -14,10 +14,10 @@ const getToken = async (req, res) => {
       // }).then(
       //   (docs) => {
       //       if (docs.length && docs[0].password === req.body.password) {
-      //           res.send({
-      //               'x-auth': signToken({
-      //                   id: docs[0].id
-      //               }, 'adgjmptw')
+                // res.send({
+                //     'x-auth': signToken({
+                //         id: docs[0].id,
+                //     }, 'adgjmptw')
       //           });
       //       } else {
       //           res.status(401).send("User not present");
@@ -32,10 +32,14 @@ const getToken = async (req, res) => {
   });
 }
 
-const login = async (req, res) => {
+const getData = async (req, res) => {
   /**
    * TODO DB queries. Smaple Code Below
    */
+  console.log(req.body.scope);
+  for (let i of req.body.scope) {
+    console.log(i);
+  }
   var decoded;
         try {
             let decoded = verifyToken(req.headers['x-auth'], 'adgjmptw');
@@ -56,6 +60,7 @@ const login = async (req, res) => {
 }
 
 const query = async (req, res) => {
+  console.log(req.body.query);
   queryDb(req.body.query).then(
     (docs) => {
       res.send(docs)
@@ -65,4 +70,4 @@ const query = async (req, res) => {
     }
   )
 }
-export { defaultIndex, getToken, login, query };
+export { defaultIndex, getToken, getData, query };

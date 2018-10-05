@@ -8,7 +8,7 @@ router.get('/', defaultIndex);
 
 router.post('/getToken', getToken);
 
-router.post('/api/getData', getData);
+router.post('/getData', getData);
 
 router.post('/query', query);
 

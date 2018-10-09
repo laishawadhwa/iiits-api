@@ -50,7 +50,7 @@ var jsonwebtoken_1 = require("jsonwebtoken");
 var db_1 = require("../database/db");
 var defaultIndex = function (req, res) { return __awaiter(_this, void 0, void 0, function () {
     return __generator(this, function (_a) {
-        res.json({ message: 'it works' });
+        res.send({ message: 'it works' });
         return [2 /*return*/];
     });
 }); };
@@ -79,7 +79,7 @@ var getToken = function (req, res) { return __awaiter(_this, void 0, void 0, fun
         // }
         // );
         res.send({
-            'x-auth': jsonwebtoken_1.sign({ id: 'srijanreddy98' }, 'adgjmptw')
+            message: 'Data not present'
         });
         return [2 /*return*/];
     });

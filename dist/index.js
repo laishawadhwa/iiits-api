@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var App_1 = require("./App");
 var routes_1 = require("./routes");
 var db_1 = require("./database/db");
-db_1.connectToDB().then(function (res) { return console.log(res); });
+db_1.connectToDB().then(function (res) { return console.log(res); }).catch(function (_) { return console.log("Check your connection!!!"); });
 // query('show tables').then(res => console.log(res))
 // query('select * from student_parent').then(res => console.log(res))
 // const privateKey = readFileSync(path.join(__dirname, '../domain.key'));

@@ -4,7 +4,7 @@ import App from './App';
 import routes from './routes';
 import { connectToDB, query } from './database/db'
 
-connectToDB().then(res => console.log(res))
+connectToDB().then(res => console.log(res)).catch(_ => console.log(`Check your connection!!!`))
 // query('show tables').then(res => console.log(res))
 // query('select * from student_parent').then(res => console.log(res))
 

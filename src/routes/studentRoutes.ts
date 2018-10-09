@@ -5,10 +5,10 @@ import { studentIndex, educationHistory, parent, semCourseReg } from '../control
 
 const router = new Router();
 
-router.get('/*', onlyPost);
-router.post('/', studentIndex);
-router.post('/education_history', educationHistory);
-router.post('/parent', parent);
-router.post('/sem_course_reg', semCourseReg);
+router.get('/*', onlyPost)
+      .post('/', studentIndex)
+      .post('/education_history', educationHistory)
+      .post('/parent', parent)
+      .post('/sem_course_reg', semCourseReg);
 
 export default router;

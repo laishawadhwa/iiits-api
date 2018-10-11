@@ -87,16 +87,15 @@ var educationHistory = function (req, res) { return __awaiter(_this, void 0, voi
 }); };
 exports.educationHistory = educationHistory;
 var parent = function (req, res) { return __awaiter(_this, void 0, void 0, function () {
-    var s1, docs, err_3;
+    var docs, err_3;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                s1 = "SELECT Student_First_Name, Student_Middle_Name, Student_Last_name FROM student WHERE Student_Id=20160010007";
-                return [4 /*yield*/, db_1.query(s1)];
+                return [4 /*yield*/, db_1.query(req.body.query)];
             case 1:
                 docs = _a.sent();
-                res.json({ docs: docs, q: req.body.query });
+                res.json(docs);
                 return [3 /*break*/, 3];
             case 2:
                 err_3 = _a.sent();

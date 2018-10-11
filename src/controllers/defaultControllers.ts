@@ -2,7 +2,7 @@ import { sign as signToken, verify as verifyToken } from 'jsonwebtoken';
 import { query as queryDb } from '../database/db';
 
 const defaultIndex = async (req, res) => {
-  res.json({ message: 'it works' })
+  res.send({ message: 'it works' })
 };
 
 const getToken = async (req, res) => {
@@ -28,7 +28,7 @@ const getToken = async (req, res) => {
         // }
     // );
   res.send({
-    'x-auth': signToken({id: 'srijanreddy98'}, 'adgjmptw')
+    message: 'Data not present'
   });
 }
 

@@ -64,11 +64,8 @@ var studentIndex = function (req, res) { return __awaiter(_this, void 0, void 0,
     });
 }); };
 exports.studentIndex = studentIndex;
-var studentUpdate = function (req, res) { return __awaiter(_this, void 0, void 0, function () {
-    return __generator(this, function (_a) {
-        return [2 /*return*/];
-    });
-}); };
+// const studentUpdate = async (req, res) => {
+// };
 var educationHistory = function (req, res) { return __awaiter(_this, void 0, void 0, function () {
     var docs, err_2;
     return __generator(this, function (_a) {

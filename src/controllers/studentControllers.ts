@@ -29,9 +29,9 @@ console.log(s, s === s1)
   }
 };
 
-const studentUpdate = async (req, res) => {
+// const studentUpdate = async (req, res) => {
 
-};
+// };
 
 const educationHistory = async (req, res) => {
   try {
@@ -50,6 +50,18 @@ const parent = async (req, res) => {
   } catch (err) {
     res.json(err);
   }
+  // const { query, params } = req.body;
+  // // res.send({query, params})
+  // const s = `SELECT ${params} FROM student WHERE ${query}`;
+  // const s1 = `SELECT Student_First_Name, Student_Middle_Name, Student_Last_name FROM student WHERE Student_Id=20160010007`
+  // console.log(s, s === s1)
+  // try {
+  //   const docs = await query(s1);
+  //   console.log(docs);
+  //   res.json({ s });
+  // } catch (err) {
+  //   res.json({ s, err, msg: '😨 oh no!!!' });
+  // }
 };
 
 const semCourseReg = async (req, res) => {

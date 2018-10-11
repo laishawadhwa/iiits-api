@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var mysql = require("mysql");
-// import { resolve } from 'path';
 var con = mysql.createConnection({
     host: "us-cdbr-iron-east-01.cleardb.net",
     user: "b73de7b8cfffd5",

@@ -10,18 +10,33 @@ const studentIndex = async (req, res) => {
                 "Student_Cur_YearofStudy", "Student_Cur_Sem", "Student_Academic_Status",
                 "is_blacklisted", "Student_Image", "is_Alumini", "Student_Password"
   */
+ /*
+ { query: value,
+   params: [ v1, v2, v3, ... ]
+ }
+ */
+const { query, params } = req.body;
+// res.send({query, params})
+const s = `SELECT ${params} FROM student WHERE ${query}`;
+const s1 = `SELECT Student_First_Name, Student_Middle_Name, Student_Last_name FROM student WHERE Student_Id=20160010007`
+console.log(s, s === s1)
   try {
-    const docs = await query(req.body.query);
-    res.json(docs);
+    const docs = await query(s);
+    console.log(docs);
+    res.json({s});
   } catch(err) {
-    res.json(err);
+    res.json({ s, err, msg: '😨 oh no!!!' });
   }
+};
+
+const studentUpdate = async (req, res) => {
+
 };
 
 const educationHistory = async (req, res) => {
   try {
     const docs = await query(req.body.query);
-    res.json(docs);
+    res.json({data: docs});
   } catch (err) {
     res.json(err);
   }
@@ -29,8 +44,9 @@ const educationHistory = async (req, res) => {
 
 const parent = async (req, res) => {
   try {
-    const docs = await query(req.body.query);
-    res.json(docs);
+    const s1 = `SELECT Student_First_Name, Student_Middle_Name, Student_Last_name FROM student WHERE Student_Id=20160010007`
+    const docs = await query(s1);
+    res.json({docs, q: req.body.query});
   } catch (err) {
     res.json(err);
   }

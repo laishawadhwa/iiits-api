@@ -38,36 +38,25 @@ var _this = this;
 Object.defineProperty(exports, "__esModule", { value: true });
 var db_1 = require("../database/db");
 var studentIndex = function (req, res) { return __awaiter(_this, void 0, void 0, function () {
-    var _a, query, params, s, s1, docs, err_1;
+    var _a, query, params, s, s1;
     return __generator(this, function (_b) {
-        switch (_b.label) {
-            case 0:
-                _a = req.body, query = _a.query, params = _a.params;
-                s = "SELECT " + params + " FROM student WHERE " + query;
-                s1 = "SELECT Student_First_Name, Student_Middle_Name, Student_Last_name FROM student WHERE Student_Id=20160010007";
-                console.log(s, s === s1);
-                _b.label = 1;
-            case 1:
-                _b.trys.push([1, 3, , 4]);
-                return [4 /*yield*/, query(s)];
-            case 2:
-                docs = _b.sent();
-                console.log(docs);
-                res.json({ s: s });
-                return [3 /*break*/, 4];
-            case 3:
-                err_1 = _b.sent();
-                res.json({ s: s, err: err_1, msg: '😨 oh no!!!' });
-                return [3 /*break*/, 4];
-            case 4: return [2 /*return*/];
-        }
+        _a = req.body, query = _a.query, params = _a.params;
+        s = "SELECT " + params + " FROM student WHERE " + query;
+        s1 = "SELECT Id FROM student WHERE Student_Id=20160010007";
+        console.log(s, s === s1);
+        db_1.query(s).then(function (docs) {
+            res.send(docs);
+        }, function (err) {
+            res.send(err);
+        });
+        return [2 /*return*/];
     });
 }); };
 exports.studentIndex = studentIndex;
 // const studentUpdate = async (req, res) => {
 // };
 var educationHistory = function (req, res) { return __awaiter(_this, void 0, void 0, function () {
-    var docs, err_2;
+    var docs, err_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -78,8 +67,8 @@ var educationHistory = function (req, res) { return __awaiter(_this, void 0, voi
                 res.json({ data: docs });
                 return [3 /*break*/, 3];
             case 2:
-                err_2 = _a.sent();
-                res.json(err_2);
+                err_1 = _a.sent();
+                res.json(err_1);
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }
@@ -87,7 +76,7 @@ var educationHistory = function (req, res) { return __awaiter(_this, void 0, voi
 }); };
 exports.educationHistory = educationHistory;
 var parent = function (req, res) { return __awaiter(_this, void 0, void 0, function () {
-    var s1, docs, err_3;
+    var s1, docs, err_2;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -99,8 +88,8 @@ var parent = function (req, res) { return __awaiter(_this, void 0, void 0, funct
                 res.json({ docs: docs, q: req.body.query });
                 return [3 /*break*/, 3];
             case 2:
-                err_3 = _a.sent();
-                res.json(err_3);
+                err_2 = _a.sent();
+                res.json(err_2);
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }
@@ -108,7 +97,7 @@ var parent = function (req, res) { return __awaiter(_this, void 0, void 0, funct
 }); };
 exports.parent = parent;
 var semCourseReg = function (req, res) { return __awaiter(_this, void 0, void 0, function () {
-    var docs, err_4;
+    var docs, err_3;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -119,8 +108,8 @@ var semCourseReg = function (req, res) { return __awaiter(_this, void 0, void 0,
                 res.json(docs);
                 return [3 /*break*/, 3];
             case 2:
-                err_4 = _a.sent();
-                res.json(err_4);
+                err_3 = _a.sent();
+                res.json(err_3);
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }

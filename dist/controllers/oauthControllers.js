@@ -36,6 +36,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 var _this = this;
 Object.defineProperty(exports, "__esModule", { value: true });
+var models_1 = require("../database/models");
+var crypto = require("crypto");
+var jsonwebtoken_1 = require("jsonwebtoken");
 var oauthPing = function (req, res) { return __awaiter(_this, void 0, void 0, function () {
     return __generator(this, function (_a) {
         res.send({ message: 'it works' });
@@ -49,17 +52,63 @@ exports.oauthPing = oauthPing;
  * @param res will send callbackurl and token
  */
 var oauthLogin = function (req, res) { return __awaiter(_this, void 0, void 0, function () {
+    var doc, token;
     return __generator(this, function (_a) {
-        console.log(req.body);
-        // TODO authentication
-        // TODO find the callback url using clientId
-        // TODO create token using clientsecret + salt
-        res.send({
-            callbackurl: "http://localhost:4200/docs",
-            token: "thiswillbeyourtoken"
-        });
-        return [2 /*return*/];
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, models_1.User.findById(req.body.clientId)];
+            case 1:
+                doc = _a.sent();
+                token = jsonwebtoken_1.sign({
+                // id,
+                // scope
+                }, doc.clientSecret, { expiresIn: 60 * 60 * 24 * 30 });
+                res.send({
+                    callbackurl: doc.callback,
+                    token: token
+                });
+                return [2 /*return*/];
+        }
     });
 }); };
 exports.oauthLogin = oauthLogin;
+var getDetails = function (req, res) { return __awaiter(_this, void 0, void 0, function () {
+    var token, user, decoded;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                token = req.body.token;
+                return [4 /*yield*/, models_1.User.findById(req.body.id)];
+            case 1:
+                user = _a.sent();
+                if (user == null)
+                    res.send({ error: 'UserId not present' });
+                try {
+                    decoded = jsonwebtoken_1.verify(req.body.token, user.clientSecret);
+                    // TODO find row by id in token and return the scope
+                    res.send({});
+                }
+                catch (e) {
+                    res.send(e);
+                }
+                return [2 /*return*/];
+        }
+    });
+}); };
+var oauthCreate = function (req, res) { return __awaiter(_this, void 0, void 0, function () {
+    var user;
+    return __generator(this, function (_a) {
+        user = new models_1.User({
+            email: req.body.email,
+            group: req.body.group,
+            callback: req.body.callback
+        });
+        user.save().then(function (doc) {
+            // console.log(doc);
+            console.log(doc.id);
+            models_1.User.findByIdAndUpdate(doc.id, { $set: { clientSecret: crypto.pbkdf2Sync(doc.id, doc.email, 1000, 64, "sha512").toString("hex") } }, { new: true }).then(function (doc) { return res.send(doc); }, function (err) { return res.send(err); });
+        }, function (err) { return res.send(err); });
+        return [2 /*return*/];
+    });
+}); };
+exports.oauthCreate = oauthCreate;
 //# sourceMappingURL=oauthControllers.js.map

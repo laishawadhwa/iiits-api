@@ -18,16 +18,15 @@ import * as mysql from 'mysql';
 // }
 
 const query = (query) => {
-    const con1 = mysql.createConnection({
+    const con1 = mysql.createPool({
+        connectionLimit : 10,
         host: "us-cdbr-iron-east-01.cleardb.net",
         user: "b73de7b8cfffd5",
         password: "ca0b7d3f",
         database: "heroku_c9028d96deb4c64",
-        connectionLimit: 10
+        // connectionLimit: 10
     });
     return new Promise((resolve, reject) => {
-        con1.connect(function (err) {
-            if (err) reject(err);
             con1.query(query, function (err, result) {
                 // try  { con1.end(); }
                 // catch (e) {
@@ -35,7 +34,6 @@ const query = (query) => {
                 // }
                 if (err) reject(err);
                 resolve(result);
-            });
         });
     })
 }

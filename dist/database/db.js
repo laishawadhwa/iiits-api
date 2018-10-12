@@ -17,26 +17,22 @@ var mysql = require("mysql");
 //     })
 // }
 var query = function (query) {
-    var con1 = mysql.createConnection({
+    var con1 = mysql.createPool({
+        connectionLimit: 10,
         host: "us-cdbr-iron-east-01.cleardb.net",
         user: "b73de7b8cfffd5",
         password: "ca0b7d3f",
         database: "heroku_c9028d96deb4c64",
-        connectionLimit: 10
     });
     return new Promise(function (resolve, reject) {
-        con1.connect(function (err) {
+        con1.query(query, function (err, result) {
+            // try  { con1.end(); }
+            // catch (e) {
+            //     console.log(e)
+            // }
             if (err)
                 reject(err);
-            con1.query(query, function (err, result) {
-                // try  { con1.end(); }
-                // catch (e) {
-                //     console.log(e)
-                // }
-                if (err)
-                    reject(err);
-                resolve(result);
-            });
+            resolve(result);
         });
     });
 };

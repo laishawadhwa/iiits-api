@@ -39,6 +39,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var models_1 = require("../database/models");
 var crypto = require("crypto");
 var jsonwebtoken_1 = require("jsonwebtoken");
+var db_1 = require("../database/db");
 var oauthPing = function (req, res) { return __awaiter(_this, void 0, void 0, function () {
     return __generator(this, function (_a) {
         res.send({ message: 'it works' });
@@ -52,15 +53,24 @@ exports.oauthPing = oauthPing;
  * @param res will send callbackurl and token
  */
 var oauthLogin = function (req, res) { return __awaiter(_this, void 0, void 0, function () {
-    var doc, token;
+    var s, user, doc, token;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, models_1.User.findById(req.body.clientId)];
+            case 0:
+                s = "select Id from student where Student_Email=\"" + req.body.username + "\" and Student_Password=md5(\"" + req.body.password + "\")";
+                console.log(s);
+                return [4 /*yield*/, db_1.query(s)];
             case 1:
+                user = _a.sent();
+                console.log(user);
+                return [4 /*yield*/, models_1.User.findById(req.body.clientId)];
+            case 2:
                 doc = _a.sent();
+                // DONE create token using clientsecret + salt
+                // TODO Put payload in token
+                console.log(user[0]);
                 token = jsonwebtoken_1.sign({
-                // id,
-                // scope
+                    id: user[0].Id,
                 }, doc.clientSecret, { expiresIn: 60 * 60 * 24 * 30 });
                 res.send({
                     callbackurl: doc.callback,
@@ -72,28 +82,29 @@ var oauthLogin = function (req, res) { return __awaiter(_this, void 0, void 0, f
 }); };
 exports.oauthLogin = oauthLogin;
 var getDetails = function (req, res) { return __awaiter(_this, void 0, void 0, function () {
-    var token, user, decoded;
+    var token, decoded, student, e_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 token = req.body.token;
-                return [4 /*yield*/, models_1.User.findById(req.body.id)];
+                _a.label = 1;
             case 1:
-                user = _a.sent();
-                if (user == null)
-                    res.send({ error: 'UserId not present' });
-                try {
-                    decoded = jsonwebtoken_1.verify(req.body.token, user.clientSecret);
-                    // TODO find row by id in token and return the scope
-                    res.send({});
-                }
-                catch (e) {
-                    res.send(e);
-                }
-                return [2 /*return*/];
+                _a.trys.push([1, 3, , 4]);
+                decoded = jsonwebtoken_1.verify(req.body.token, req.body.secret);
+                return [4 /*yield*/, db_1.query("select * from student where Id=" + decoded.id)];
+            case 2:
+                student = _a.sent();
+                res.send({ student: student });
+                return [3 /*break*/, 4];
+            case 3:
+                e_1 = _a.sent();
+                res.send(e_1);
+                return [3 /*break*/, 4];
+            case 4: return [2 /*return*/];
         }
     });
 }); };
+exports.getDetails = getDetails;
 var oauthCreate = function (req, res) { return __awaiter(_this, void 0, void 0, function () {
     var user;
     return __generator(this, function (_a) {

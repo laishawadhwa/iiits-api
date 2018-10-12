@@ -1,6 +1,7 @@
 import { User } from '../database/models';
 import * as crypto from 'crypto';
 import {sign as signToken, verify as verifyToken } from 'jsonwebtoken';
+import { query as queryDb } from '../database/db';
 
 const oauthPing = async (req, res) => {
     res.send({ message: 'it works' });
@@ -11,14 +12,18 @@ const oauthPing = async (req, res) => {
  * @param res will send callbackurl and token
  */
 const oauthLogin = async (req, res) => {
+    let s = `select Id from student where Student_Email="${req.body.username}" and Student_Password=md5("${req.body.password}")`;
+    console.log(s);
     // TODO authentication
-
+    const user = await queryDb(s);
+    console.log(user);
     // DONE find the callback url using clientId
     const doc = await User.findById(req.body.clientId);
     // DONE create token using clientsecret + salt
     // TODO Put payload in token
+    console.log(user[0]);
     const token = signToken({
-            // id,
+            id : user[0].Id,
             // scope
         }, doc.clientSecret, { expiresIn: 60*60*24*30 });
     res.send({
@@ -29,16 +34,16 @@ const oauthLogin = async (req, res) => {
 
 const getDetails = async (req, res) => {
     const token = req.body.token;
-    const user = await User.findById(req.body.id);
-    if (user == null) res.send({error: 'UserId not present'});
+    // const user = await User.findById(req.body.id);
+    // if (user == null) res.send({error: 'UserId not present'});
     let decoded;
     try {
-        decoded = verifyToken(req.body.token, user.clientSecret);
+        decoded = verifyToken(req.body.token, req.body.secret);
 
         // TODO find row by id in token and return the scope
+        const student = await queryDb(`select * from student where Id=${decoded.id}`)
 
-
-        res.send({});
+        res.send({student});
     } catch(e) {
         res.send(e)
     }
@@ -64,4 +69,4 @@ const oauthCreate = async (req, res) => {
     );
 }
 
-export { oauthPing, oauthLogin, oauthCreate };
+export { oauthPing, oauthLogin, oauthCreate, getDetails };

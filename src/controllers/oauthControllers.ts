@@ -12,24 +12,30 @@ const oauthPing = async (req, res) => {
  * @param res will send callbackurl and token
  */
 const oauthLogin = async (req, res) => {
-    let s = `select Id from student where Student_Email="${req.body.username}" and Student_Password=md5("${req.body.password}")`;
-    console.log(s);
-    // TODO authentication
-    const user = await queryDb(s);
-    console.log(user);
-    // DONE find the callback url using clientId
-    const doc = await User.findById(req.body.clientId);
-    // DONE create token using clientsecret + salt
-    // TODO Put payload in token
-    console.log(user[0]);
-    const token = signToken({
-            id : user[0].Id,
-            // scope
-        }, doc.clientSecret, { expiresIn: 60*60*24*30 });
-    res.send({
-        callbackurl: doc.callback,
-        token: token
-    });
+    if ( req.body.type === 'student') {
+        let s = `select Id from student where Student_Email="${req.body.username}" and Student_Password=md5("${req.body.password}")`;
+        console.log(s);
+        // TODO authentication
+        const user = await queryDb(s);
+        console.log(user);
+        // DONE find the callback url using clientId
+        const doc = await User.findById(req.body.clientId);
+        // DONE create token using clientsecret + salt
+        // TODO Put payload in token
+        console.log(user[0]);
+        const token = signToken({
+                id : user[0].Id,
+                // scope
+            }, doc.clientSecret, { expiresIn: 60*60*24*30 });
+        res.send({
+            callbackurl: doc.callback,
+            token: token
+        });
+    } else if (req.body.type === 'teacher') {
+
+    } else if (req.body.type === 'employee') {
+
+    }
 };
 
 const getDetails = async (req, res) => {
@@ -42,7 +48,7 @@ const getDetails = async (req, res) => {
 
         // TODO find row by id in token and return the scope
         const student = await queryDb(`select * from student where Id=${decoded.id}`)
-
+        delete student[0]['Student_Password'];
         res.send({student});
     } catch(e) {
         res.send(e)

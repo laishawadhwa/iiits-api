@@ -57,6 +57,7 @@ var oauthLogin = function (req, res) { return __awaiter(_this, void 0, void 0, f
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
+                if (!(req.body.type === 'student')) return [3 /*break*/, 3];
                 s = "select Id from student where Student_Email=\"" + req.body.username + "\" and Student_Password=md5(\"" + req.body.password + "\")";
                 console.log(s);
                 return [4 /*yield*/, db_1.query(s)];
@@ -76,7 +77,14 @@ var oauthLogin = function (req, res) { return __awaiter(_this, void 0, void 0, f
                     callbackurl: doc.callback,
                     token: token
                 });
-                return [2 /*return*/];
+                return [3 /*break*/, 4];
+            case 3:
+                if (req.body.type === 'teacher') {
+                }
+                else if (req.body.type === 'employee') {
+                }
+                _a.label = 4;
+            case 4: return [2 /*return*/];
         }
     });
 }); };
@@ -94,6 +102,7 @@ var getDetails = function (req, res) { return __awaiter(_this, void 0, void 0, f
                 return [4 /*yield*/, db_1.query("select * from student where Id=" + decoded.id)];
             case 2:
                 student = _a.sent();
+                delete student[0]['Student_Password'];
                 res.send({ student: student });
                 return [3 /*break*/, 4];
             case 3:

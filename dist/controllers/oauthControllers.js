@@ -57,6 +57,7 @@ var oauthLogin = function (req, res) { return __awaiter(_this, void 0, void 0, f
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
+                console.log('Oauth Login Request');
                 if (!(req.body.type === 'student')) return [3 /*break*/, 3];
                 s = "select Id from student where Student_Email=\"" + req.body.username + "\" and Student_Password=md5(\"" + req.body.password + "\")";
                 console.log(s);

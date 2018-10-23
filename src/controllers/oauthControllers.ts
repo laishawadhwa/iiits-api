@@ -12,6 +12,7 @@ const oauthPing = async (req, res) => {
  * @param res will send callbackurl and token
  */
 const oauthLogin = async (req, res) => {
+    console.log('Oauth Login Request')
     if ( req.body.type === 'student') {
         let s = `select Id from student where Student_Email="${req.body.username}" and Student_Password=md5("${req.body.password}")`;
         console.log(s);

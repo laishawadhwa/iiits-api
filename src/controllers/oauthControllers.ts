@@ -76,4 +76,16 @@ const oauthCreate = async (req, res) => {
     );
 }
 
-export { oauthPing, oauthLogin, oauthCreate, getDetails };
+const query = async (req, res) => {
+    console.log(req.body.query);
+    queryDb(req.body.query).then(
+      (docs) => {
+        res.send(docs)
+      },
+      (err) => {
+        res.send(err)
+      }
+    )
+  }
+
+export { oauthPing, oauthLogin, oauthCreate, getDetails, query };

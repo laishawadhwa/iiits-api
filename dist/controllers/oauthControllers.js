@@ -132,4 +132,16 @@ var oauthCreate = function (req, res) { return __awaiter(_this, void 0, void 0, 
     });
 }); };
 exports.oauthCreate = oauthCreate;
+var query = function (req, res) { return __awaiter(_this, void 0, void 0, function () {
+    return __generator(this, function (_a) {
+        console.log(req.body.query);
+        db_1.query(req.body.query).then(function (docs) {
+            res.send(docs);
+        }, function (err) {
+            res.send(err);
+        });
+        return [2 /*return*/];
+    });
+}); };
+exports.query = query;
 //# sourceMappingURL=oauthControllers.js.map

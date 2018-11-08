@@ -42,7 +42,16 @@ const courseUpdate = async (req, res) => {
 }
 
 const courseDelete = async (req, res) => {
-
+  const { query}=req.body
+  console.log(query)
+  const s= `DELETE from academic_course where ${query}`;
+  try{
+    const docs=await queryDB(s)
+    res.json(s);
+  }
+  catch(err){
+    res.json(err);
+  }
 }
 
 export { courseRead, courseCreate, courseUpdate, courseDelete }
